@@ -1,62 +1,19 @@
-## Visual Studio
-.vs/
-*.user
-*.userosscache
-*.suo
-*.cache
-*.dbmdl
-*.jfm
+# OS
+.DS_Store
+Thumbs.db
 
-## Build results
-bin/
-obj/
-Debug/
-Release/
-x64/
-x86/
-[Aa][Rr][Mm]*/
-[Bb][Ii][Nn]/
-[Oo][Bb][Jj]/
+# Secrets / configs locaux
+.env
+.env.local
+.env.*.local
 
-## Rider
+# Editors / IDEs
+.vscode/
 .idea/
-*.sln.iml
 
-## Logs
+# Logs
 *.log
 
-## NuGet
-*.nupkg
-packages/
-*.snupkg
-project.lock.json
-project.fragment.lock.json
-
-## Resharper
-_ReSharper*/
-*.[Rr]e[Ss]harper
-*.DotSettings.user
-
-## VS Code
-.vscode/
-
-## Generated files
-Generated_Code/
-*.generated.cs
-
-## Publish
-publish/
-*.pubxml.user
-*.pubxml
-
-## Azure artifacts
-*.azurePubxml
-
-## Other
+# Temp
 *.tmp
 *.temp
-
-## OS
-Thumbs.db
-ehthumbs.db
-.DS_Store
