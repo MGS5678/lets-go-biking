@@ -1,0 +1,51 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RouteurLibrary
+{
+	public class OrchestratorService : IOrchestratorService
+	{
+		private static HttpClient _httpClient = new HttpClient();
+		private JCDecauxClient jCDecauxClient = new JCDecauxClient(_httpClient);
+
+		public async Task<string> GetData(double fromlat, double fromlng, double tolat, double tolng)
+		{
+			Coordinate from = new Coordinate(fromlat, fromlng);
+			Coordinate to = new Coordinate(tolat, tolng);
+
+			List<Station> stations = await jCDecauxClient.getStations("bruxelles");
+			if (stations == null) return "{}";
+
+			string result = JsonConvert.SerializeObject(searchNearestStation(stations, from));
+			result += " - ";
+			result += JsonConvert.SerializeObject(searchNearestStation(stations, to));
+
+			return result;
+        }
+
+		private Station searchNearestStation(List<Station> stations, Coordinate coordinate)
+		{
+			if (stations.Count == 0) return null;
+
+			double minDistance = coordinate.distanceTo(stations[0].position);
+			Station result = stations[0];
+
+			foreach (Station station in stations)
+			{
+				double distance = coordinate.distanceTo(station.position);
+				if (distance < minDistance) {
+					minDistance = distance;
+					result = station;
+				}
+			}
+
+			return result;
+		}
+	}
+}

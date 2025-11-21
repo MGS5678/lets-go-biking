@@ -3,51 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36511.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SOAPServer", "SOAPServer\", "{12F0B6A8-A645-BF76-02E0-4E41ADF780A4}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_50558"
-		Debug.AspNetCompiler.PhysicalPath = "SOAPServer\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50558\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_50558"
-		Release.AspNetCompiler.PhysicalPath = "SOAPServer\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50558\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "50558"
-		SlnRelativePath = "SOAPServer\"
-		DefaultWebSiteLanguage = "Visual C#"
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyJCDecaux", "ProxyJCDecaux\ProxyJCDecaux.csproj", "{E2CD9EA7-C605-408D-9F49-BA58FF8BA30F}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "RouteurService", "RouteurService\", "{D7E712BD-B979-B1D7-FE57-735AFE9B185A}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_55111"
-		Debug.AspNetCompiler.PhysicalPath = "RouteurService\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55111\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_55111"
-		Release.AspNetCompiler.PhysicalPath = "RouteurService\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55111\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "55111"
-		SlnRelativePath = "RouteurService\"
-		DefaultWebSiteLanguage = "Visual C#"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrchestratorService", "OrchestratorService\OrchestratorService.csproj", "{C0FAD676-ACF9-4A39-B137-D797E45CAC0A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E2CD9EA7-C605-408D-9F49-BA58FF8BA30F} = {E2CD9EA7-C605-408D-9F49-BA58FF8BA30F}
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "Console\Console.csproj", "{779E5224-9B9E-4FC5-8409-E43898E895C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,18 +16,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{12F0B6A8-A645-BF76-02E0-4E41ADF780A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12F0B6A8-A645-BF76-02E0-4E41ADF780A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12F0B6A8-A645-BF76-02E0-4E41ADF780A4}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{12F0B6A8-A645-BF76-02E0-4E41ADF780A4}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{D7E712BD-B979-B1D7-FE57-735AFE9B185A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7E712BD-B979-B1D7-FE57-735AFE9B185A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7E712BD-B979-B1D7-FE57-735AFE9B185A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7E712BD-B979-B1D7-FE57-735AFE9B185A}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{779E5224-9B9E-4FC5-8409-E43898E895C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{779E5224-9B9E-4FC5-8409-E43898E895C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{779E5224-9B9E-4FC5-8409-E43898E895C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{779E5224-9B9E-4FC5-8409-E43898E895C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2CD9EA7-C605-408D-9F49-BA58FF8BA30F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2CD9EA7-C605-408D-9F49-BA58FF8BA30F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2CD9EA7-C605-408D-9F49-BA58FF8BA30F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2CD9EA7-C605-408D-9F49-BA58FF8BA30F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0FAD676-ACF9-4A39-B137-D797E45CAC0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0FAD676-ACF9-4A39-B137-D797E45CAC0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0FAD676-ACF9-4A39-B137-D797E45CAC0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0FAD676-ACF9-4A39-B137-D797E45CAC0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
