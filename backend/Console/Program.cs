@@ -19,6 +19,8 @@ namespace ConsoleClient
                 var cityName = Console.ReadLine();
 
                 var requestUrl = $"{defaultBase}/contracts?cityName={cityName}";
+                Console.WriteLine($"\n\nGetting contract name for city : {cityName}\n");
+                Console.WriteLine($"Contract Name Request URL : {requestUrl}\n");
 
                 try
                 {
@@ -30,7 +32,7 @@ namespace ConsoleClient
                         Debug.WriteLine("ConsoleClient - Program.cs - retrieved contract name: " + data + " for city: " + cityName);
                         if (result.IsSuccessStatusCode)
                         {
-                            Console.WriteLine($"Response from service : {data}");
+                            Console.WriteLine($"Response from contractsservice : {data}");
                             contractName = data.Trim('"');
                         }
                         else
@@ -47,7 +49,7 @@ namespace ConsoleClient
 
                 requestUrl = $"{defaultBase}/stations?contract={contractName}";
                 Console.WriteLine($"\n\nGetting stations for contract : {contractName}\n");
-                Console.WriteLine($"Request URL : {requestUrl}\n");
+                Console.WriteLine($"Stations Request URL : {requestUrl}\n");
                 try
                 {
                     using (var response = client.GetAsync(requestUrl))
@@ -59,7 +61,7 @@ namespace ConsoleClient
 
                         if (result.IsSuccessStatusCode)
                         {
-                            Console.WriteLine($"Response from service : {data}");
+                            Console.WriteLine($"Response from stationsservice : {data.Substring(0, 150)}");
                         }
                         else
                         {
