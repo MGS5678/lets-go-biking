@@ -30,9 +30,9 @@ namespace ProxyJCDecaux
                 Dictionary<string, List<string>> contracts = new Dictionary<string, List<string>>();
                 foreach (var item in parsedData)
                 {
-                    string name = item["name"].ToString();
+                    string contractName = item["name"].ToString();
                     List<string> cities = item["cities"].ToObject<List<string>>();
-                    contracts[name] = cities;
+                    contracts[contractName] = cities;
                 }
                 return contracts;
 

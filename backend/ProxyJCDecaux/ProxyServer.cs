@@ -23,18 +23,32 @@ namespace ProxyJCDecaux
             if (_proxyCache.Get(cityName) != default)
             {
                 Debug.WriteLine("############# CACHE UTILISE #############");
+                Debug.WriteLine(cityName, _proxyCache.Get(cityName) as string);
                 return _proxyCache.Get(cityName) as string;
             }
             var server = new JCDecauxClient(_httpClient);
             Dictionary<string, List<string>> contracts = await server.GetContracts();
             foreach (KeyValuePair<string, List<string>> kv in contracts)
             {
-                if (kv.Value != null && kv.Value.Contains(cityName))
+                if (kv.Value != null)
                 {
-                    Debug.WriteLine("############# REQUETE JCDECAUX #############");
-                    _proxyCache.Set(cityName, kv.Key);
-                    return kv.Key;
+                    foreach (string city in kv.Value)
+                    {
+                        _proxyCache.Set(city, kv.Key);
+                    }
+
                 }
+                else
+                {
+                    Debug.WriteLine(char.ToUpper(kv.Key[0]) + kv.Key.Substring(1));
+                    _proxyCache.Set(char.ToUpper(kv.Key[0]) + kv.Key.Substring(1), kv.Key);
+                }
+            }
+            if (_proxyCache.Get(cityName) != default)
+            {
+                Debug.WriteLine("############# REQUETE JCDECAUX #############");
+                Debug.WriteLine(cityName, _proxyCache.Get(cityName) as string);
+                return _proxyCache.Get(cityName) as string;
             }
             return null; // ptet mettre autre chose comme (false, null)
 
@@ -51,7 +65,7 @@ namespace ProxyJCDecaux
             Debug.WriteLine("############# REQUETE JCDECAUX #############");
             string stationsJson = await server.GetStations(contractName);
             _proxyCache.Set(contractName, stationsJson);
-            return stationsJson;
+            return _proxyCache.Get(contractName) as string;
         }
 
     }
