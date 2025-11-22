@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
@@ -15,15 +16,15 @@ namespace ProxyJCDecaux
         {
             _httpClient = httpClient; //?? SharedHttpClient;
         }
-        public async Task<string> GetContractNameFromCity(string cityName)
+        public async Task<string> GetContractNameFromCity(string cityName) //ici implémenter le cache
         {
             var server = new JCDecauxClient(_httpClient);
-            Dictionary<string, List<string>> contracts = await server.getContracts();
-            Debug.WriteLine(contracts);
+            Dictionary<string, List<string>> contracts = await server.GetContracts();
             foreach (KeyValuePair<string, List<string>> kv in contracts)
             {
                 if (kv.Value != null && kv.Value.Contains(cityName))
                 {
+                    Debug.WriteLine("ProxyServer.cs - GetContractNameFromCity - found contract: " + kv.Key + " for city: " + cityName);
                     return kv.Key;
                 }
             }
@@ -31,10 +32,11 @@ namespace ProxyJCDecaux
 
         }
 
-        public async Task<string> GetStationsJson(string contractName)
+        public async Task<string> GetStationsJson(string contractName) //ici implémenter le cache
         {
             var server = new JCDecauxClient(_httpClient);
-            string stationsJson = await server.getStations(contractName);
+            Debug.WriteLine("ProxyServer.cs");
+            string stationsJson = await server.GetStations(contractName);
             return stationsJson;
         }
 
