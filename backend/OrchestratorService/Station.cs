@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Web;
-using System.Web.UI;
 
 public class Station
 {
@@ -31,7 +30,7 @@ public class Station
     [JsonProperty("status")]
     public string status { get; set; }
     [JsonProperty("last_update")]
-    public long last_update { get; set; }
+    public long? last_update { get; set; }
 
 
     public Station()

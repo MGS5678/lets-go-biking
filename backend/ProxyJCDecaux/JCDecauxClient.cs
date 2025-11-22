@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ProxyJCDecaux{
+namespace ProxyJCDecaux
+{
 
     public class JCDecauxClient
     {
@@ -18,7 +19,7 @@ namespace ProxyJCDecaux{
             _httpClient = httpClient;
         }
 
-        public async Task<Dictionary<string, List<string>>> getContracts() // r�cup�re les contrats et les met dans un dico
+        public async Task<Dictionary<string, List<string>>> GetContracts() // r�cup�re les contrats et les met dans un dico
         {
             HttpResponseMessage response = await _httpClient.GetAsync(url + "contracts?apiKey=" + apiKey);
 
@@ -42,10 +43,11 @@ namespace ProxyJCDecaux{
                 return null;
             }
         }
-        public async Task<string> getStations(string contractName) // r�cup�re les stations format json
+        public async Task<string> GetStations(string contractName) // récupère les stations format json
         {
-            HttpResponseMessage response = await _httpClient.GetAsync(url + "/stations?contract=" + contractName + "&apiKey=" + apiKey);
-
+            HttpResponseMessage response = await _httpClient.GetAsync(url + "stations?contract=" + contractName + "&apiKey=" + apiKey);
+            Debug.WriteLine("JCDecauxClient.cs");
+            Debug.WriteLine(url + "stations?contract=" + contractName + "&apiKey=" + apiKey);
             if (response.IsSuccessStatusCode)
             {
                 string responseMessage = await response.Content.ReadAsStringAsync();
