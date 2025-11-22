@@ -60,3 +60,6 @@ publish/
 Thumbs.db
 ehthumbs.db
 .DS_Store
+
+## node_modules
+node_modules/*
