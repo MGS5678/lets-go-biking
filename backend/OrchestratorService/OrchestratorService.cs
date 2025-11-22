@@ -12,7 +12,13 @@ namespace OrchestratorService
 {
     public class OrchestratorService : IOrchestratorService
     {
-        private static HttpClient _httpClient = new HttpClient();
+        private readonly HttpClient _httpClient = new HttpClient();
+        private readonly ProxyClient proxy;
+
+        public OrchestratorService()
+        {
+            proxy = new ProxyClient(_httpClient);
+        }
 
 
         public async Task<string> GetContractNameFromCity(string city)

@@ -9,15 +9,16 @@ using OrchestratorService.ProxyService;
 
 public class ProxyClient
 {
-    HttpClient _httpClient;
+    private readonly HttpClient _httpClient;
+    private readonly ProxyServiceClient proxyService;
     public ProxyClient(HttpClient httpClient)
     {
         _httpClient = httpClient;
+        proxyService = new ProxyServiceClient();
     }
 
     public async Task<List<Station>> GetStations(string contractName)
     {
-        var proxyService = new ProxyServiceClient();
         Debug.WriteLine("ProxyClient.cs");
         string stationsJson = await proxyService.GetStationsJsonAsync(contractName);
         if (stationsJson != null)
@@ -34,7 +35,6 @@ public class ProxyClient
 
     public async Task<string> GetContractNameFromCity(string city)
     {
-        var proxyService = new ProxyServiceClient();
         string contractName = await proxyService.GetContractNameFromCityAsync(city);
         Debug.WriteLine("ProxyClient.cs - GetContractNameFromCity - returned contract: " + contractName + " for city: " + city);
         return contractName;
