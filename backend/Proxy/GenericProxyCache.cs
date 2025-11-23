@@ -5,7 +5,7 @@ using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProxyJCDecaux
+namespace Proxy
 {
     public class GenericProxyCache
 

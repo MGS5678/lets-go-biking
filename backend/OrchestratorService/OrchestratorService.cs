@@ -28,7 +28,7 @@ namespace OrchestratorService
             var proxy = new ProxyClient(_httpClient);
             string contractName = await proxy.GetContractNameFromCity(city);
             Debug.WriteLine("OrchestratorService.cs - GetContractNameFromCity - returned contract: " + contractName + " for city: " + city);
-            return contractName;
+            return contractName.Trim('"');
         }
 
         public async Task<string> GetStations(string contract)

@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ProxyJCDecaux
+namespace Proxy
 {
     public class ProxyServer
     {

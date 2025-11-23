@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36511.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyJCDecaux", "ProxyJCDecaux\ProxyJCDecaux.csproj", "{E2CD9EA7-C605-408D-9F49-BA58FF8BA30F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxy", "Proxy\Proxy.csproj", "{E2CD9EA7-C605-408D-9F49-BA58FF8BA30F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrchestratorService", "OrchestratorService\OrchestratorService.csproj", "{C0FAD676-ACF9-4A39-B137-D797E45CAC0A}"
 	ProjectSection(ProjectDependencies) = postProject

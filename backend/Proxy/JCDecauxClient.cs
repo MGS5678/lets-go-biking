@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ProxyJCDecaux
+namespace Proxy
 {
 
     public class JCDecauxClient
     {
         HttpClient _httpClient;
-        string apiKey = "668bf3fd91bde76a99077bb91ec0c543339a25b2";
+        string apiKey = "056bfe4ddaac72f8acb8292991c535938fc511d7";// "668bf3fd91bde76a99077bb91ec0c543339a25b2";
         string url = "https://api.jcdecaux.com/vls/v1/";
         public JCDecauxClient(HttpClient httpClient)
         {
@@ -43,14 +43,20 @@ namespace ProxyJCDecaux
                 return null;
             }
         }
-        public async Task<string> GetStations(string contractName) // récupère les stations format json
+
+        public async Task<string> GetStations(string contractName) // recup les stations au format json 
         {
-            HttpResponseMessage response = await _httpClient.GetAsync(url + "stations?contract=" + contractName + "&apiKey=" + apiKey);
+            string cleanContractName = contractName?.Trim('"') ?? contractName;
+
+            string requestUrl = $"{url}stations?contract={cleanContractName}&apiKey={apiKey}";
             Debug.WriteLine("JCDecauxClient.cs");
-            Debug.WriteLine(url + "stations?contract=" + contractName + "&apiKey=" + apiKey);
+            Debug.WriteLine(requestUrl);
+
+            HttpResponseMessage response = await _httpClient.GetAsync(requestUrl);
             if (response.IsSuccessStatusCode)
             {
                 string responseMessage = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine("JCDecauxClient.cs - GetStations - returned stations for contract: " + cleanContractName);
                 return responseMessage;
             }
             else

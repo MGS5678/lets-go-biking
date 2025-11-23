@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace ConsoleClient
 {
@@ -8,9 +9,11 @@ namespace ConsoleClient
     {
         static void Main(string[] args)
         {
+            MainAsync(args).GetAwaiter().GetResult();
+        }
+        static async Task MainAsync(string[] args)
+        {
             HttpClient client = new HttpClient();
-            string contractName = string.Empty;
-
 
             var defaultBase = "http://localhost:8733/Design_Time_Addresses/OrchestratorService/OrchestratorService";
             while (true)
@@ -24,57 +27,51 @@ namespace ConsoleClient
 
                 try
                 {
-                    using (var response = client.GetAsync(requestUrl))
+                    var response = await client.GetAsync(requestUrl);
+
+                    // AJOUTEZ CECI POUR VOIR EXACTEMENT CE QUI SE PASSE
+                    Console.WriteLine($"Status Code: {response.StatusCode}");
+                    Console.WriteLine($"Reason Phrase: {response.ReasonPhrase}");
+
+                    if (!response.IsSuccessStatusCode)
                     {
-                        var result = response.Result;
-                        Console.WriteLine($"Status Code: {result.StatusCode}");
-                        var data = result.Content.ReadAsStringAsync().Result;
-                        Debug.WriteLine("ConsoleClient - Program.cs - retrieved contract name: " + data + " for city: " + cityName);
-                        if (result.IsSuccessStatusCode)
-                        {
-                            Console.WriteLine($"Response from contractsservice : {data}");
-                            contractName = data.Trim('"');
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Error Code : {result.StatusCode}");
-                            Console.WriteLine($"Error Content : {data}");
-                        }
+                        var errorContent = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine($"Error Content: {errorContent}");
                     }
+
+                    response.EnsureSuccessStatusCode();
+                    var contractName = await response.Content.ReadAsStringAsync();
+
+                    // AJOUTEZ CES LOGS POUR VOIR EXACTEMENT CE QUI ARRIVE
+                    Console.WriteLine($"Raw response: [{contractName}]");
+                    Console.WriteLine($"Response length: {contractName.Length}");
+                    Console.WriteLine($"First char: [{contractName[0]}]");
+                    Console.WriteLine($"Last char: [{contractName[contractName.Length - 1]}]");
+
+                    Debug.WriteLine("ConsoleClient.cs - MainAsync - returned contract: " + contractName + " for city: " + cityName);
+                    Console.WriteLine($"Response from contractsservice : {contractName}");
+
+
+
+                    requestUrl = $"{defaultBase}/stations?contract={contractName}";
+                    Console.WriteLine($"\n\nGetting stations for contract : {contractName}\n");
+                    Console.WriteLine($"Stations Request URL : {requestUrl}\n");
+
+                    response = await client.GetAsync(requestUrl);
+                    Debug.WriteLine("A");
+                    var stationsJson = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("B");
+                    Console.WriteLine(stationsJson);
+                    response.EnsureSuccessStatusCode();
+
+                    Console.WriteLine($"Response from stationsservice : {stationsJson.Substring(0, 150)}");
                 }
-                catch (Exception ex)
+                catch (HttpRequestException ex)
                 {
-                    Console.WriteLine($"Exception : {ex.Message}");
+                    Console.WriteLine($"HTTP Error: {ex.Message}");
+                    Console.WriteLine("Make sure OrchestratorService is running!");
+                    continue; // Continue to next iteration instead of crashing
                 }
-
-                requestUrl = $"{defaultBase}/stations?contract={contractName}";
-                Console.WriteLine($"\n\nGetting stations for contract : {contractName}\n");
-                Console.WriteLine($"Stations Request URL : {requestUrl}\n");
-                try
-                {
-                    using (var response = client.GetAsync(requestUrl))
-                    {
-                        var result = response.Result;
-                        Console.WriteLine($"Status Code: {result.StatusCode}");
-
-                        var data = result.Content.ReadAsStringAsync().Result;
-
-                        if (result.IsSuccessStatusCode)
-                        {
-                            Console.WriteLine($"Response from stationsservice : {data.Substring(0, 150)}");
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Error Code : {result.StatusCode}");
-                            Console.WriteLine($"Error Content : {data}");
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Exception : {ex.Message}");
-                }
-
 
 
                 Console.WriteLine("next");
