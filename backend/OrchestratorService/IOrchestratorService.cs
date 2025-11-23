@@ -22,5 +22,11 @@ namespace OrchestratorService
                 ResponseFormat = WebMessageFormat.Json,
                 BodyStyle = WebMessageBodyStyle.Bare)]
         Task<string> GetStations(string contract);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "coords?address={address}",
+                ResponseFormat = WebMessageFormat.Json,
+                BodyStyle = WebMessageBodyStyle.Bare)]
+        Task<string> GetCoords(string address);
     }
 }

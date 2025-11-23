@@ -45,5 +45,14 @@ namespace OrchestratorService
             return JsonConvert.SerializeObject(stations);
 
         }
+
+        public async Task<string> GetCoords(string address)
+        {
+            if (string.IsNullOrWhiteSpace(address))
+                return string.Empty;
+            var proxy = new ProxyClient(_httpClient);
+            string coordsJson = await proxy.GetCoords(address);
+            return coordsJson;
+        }
     }
 }

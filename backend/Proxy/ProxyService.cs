@@ -27,5 +27,11 @@ namespace Proxy
             string stationsJson = await proxy.GetStationsJson(contractName);
             return stationsJson;
         }
+
+        public async Task<string> GetCoordsJson(string address)
+        {
+            string coordsJson = await proxy.GetCoordsJson(address);
+            return coordsJson;
+        }
     }
 }

@@ -68,5 +68,17 @@ namespace Proxy
             return _proxyCache.Get(contractName) as string;
         }
 
+        public async Task<string> GetCoordsJson(string address)
+        {
+            if (_proxyCache.Get(address) != default)
+            {
+                Debug.WriteLine("############# CACHE UTILISE #############");
+                return _proxyCache.Get(address) as string;
+            }
+            var server = new OpenRouteClient(_httpClient);
+            string coordsJson = await server.GetCoordinates(address);
+            _proxyCache.Set(address, coordsJson);
+            return _proxyCache.Get(address) as string;
+        }
     }
 }

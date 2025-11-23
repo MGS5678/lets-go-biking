@@ -24,6 +24,12 @@ namespace Proxy
             BodyStyle = WebMessageBodyStyle.Bare)]
         Task<string> GetStationsJson(string contractName);
 
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/coords?address={address}",
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        Task<string> GetCoordsJson(string address);
+
     }
 
 }

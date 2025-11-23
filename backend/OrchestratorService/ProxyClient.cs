@@ -58,4 +58,14 @@ public class ProxyClient
 
         return contractName;
     }
+
+    public async Task<string> GetCoords(string address)
+    {
+        var requestUrl = $"{baseUrl}/coords?address={Uri.EscapeDataString(address)}";
+        var response = await _httpClient.GetAsync(requestUrl);
+        response.EnsureSuccessStatusCode();
+        var coordsJson = await response.Content.ReadAsStringAsync();
+        string actualJson = JsonConvert.DeserializeObject<string>(coordsJson);
+        return actualJson;
+    }
 }
