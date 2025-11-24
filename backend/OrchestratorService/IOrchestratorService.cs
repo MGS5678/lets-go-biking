@@ -28,5 +28,17 @@ namespace OrchestratorService
                 ResponseFormat = WebMessageFormat.Json,
                 BodyStyle = WebMessageBodyStyle.Bare)]
         Task<string> GetCoords(string address);
+
+        //[OperationContract]
+        //[WebGet(UriTemplate = "route?coords1={coords1}&coords2={coords2}&meansTransport={meansTransport}",
+        //        ResponseFormat = WebMessageFormat.Json,
+        //        BodyStyle = WebMessageBodyStyle.Bare)]
+        //Task<string> GetRoute(string coords1, string coords2, string meansTransport);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "route?address1={address1}&address2={address2}",
+                ResponseFormat = WebMessageFormat.Json,
+                BodyStyle = WebMessageBodyStyle.Bare)]
+        Task<string> GetRouteFromAddresses(string address1, string address2);
     }
 }

@@ -65,5 +65,24 @@ namespace Proxy
                 return null;
             }
         }
+
+        public async Task<string> GetAllStations() // recup les stations au format json 
+        {
+            string requestUrl = $"https://api.jcdecaux.com/vls/v3/stations?apiKey={apiKey}";
+            Debug.WriteLine("JCDecauxClient.cs");
+            Debug.WriteLine(requestUrl);
+            HttpResponseMessage response = await _httpClient.GetAsync(requestUrl);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseMessage = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine("JCDecauxClient.cs - GetAllStations - returned all stations");
+                return responseMessage;
+            }
+            else
+            {
+                Console.WriteLine("Stations request failed " + response.StatusCode + " - " + response.ReasonPhrase);
+                return null;
+            }
+        }
     }
 }

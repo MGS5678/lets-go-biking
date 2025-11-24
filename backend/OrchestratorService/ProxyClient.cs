@@ -68,4 +68,26 @@ public class ProxyClient
         string actualJson = JsonConvert.DeserializeObject<string>(coordsJson);
         return actualJson;
     }
+
+    public async Task<string> GetRoute(string coords1, string coords2, string meansTransport)
+    {
+        Debug.WriteLine("ProxyClient.cs - GetRoute called");
+        var requestUrl = $"{baseUrl}/route?coords1={Uri.EscapeDataString(coords1)}&coords2={Uri.EscapeDataString(coords2)}&meansTransport={Uri.EscapeDataString(meansTransport)}";
+        var response = await _httpClient.GetAsync(requestUrl);
+        response.EnsureSuccessStatusCode();
+        var routeJson = await response.Content.ReadAsStringAsync();
+        string actualJson = JsonConvert.DeserializeObject<string>(routeJson);
+        Debug.WriteLine("ProxyClient.cs - GetRoute - returned route for transport: " + meansTransport);
+        return actualJson;
+    }
+
+    public async Task<string> GetAllStations()
+    {
+        var requestUrl = $"{baseUrl}/allstations";
+        var response = await _httpClient.GetAsync(requestUrl);
+        response.EnsureSuccessStatusCode();
+        var allStationsJson = await response.Content.ReadAsStringAsync();
+        string actualJson = JsonConvert.DeserializeObject<string>(allStationsJson);
+        return actualJson;
+    }
 }

@@ -33,5 +33,19 @@ namespace Proxy
             string coordsJson = await proxy.GetCoordsJson(address);
             return coordsJson;
         }
+
+        public async Task<string> GetRoute(string coords1, string coords2, string meansTransport)
+        {
+            Debug.WriteLine("ProxyService.cs - GetRoute called");
+            string routeJson = await proxy.GetRoute(coords1, coords2, meansTransport);
+            Debug.WriteLine("ProxyService.cs - GetRoute - returned routeJson");
+            return routeJson;
+        }
+
+        public async Task<string> GetAllStations()
+        {
+            string allStationsJson = await proxy.GetAllStations();
+            return allStationsJson;
+        }
     }
 }

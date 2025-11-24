@@ -92,6 +92,7 @@
     <Content Include=".oldOrchestratorService.txt" />
     <Compile Include="ProxyClient.cs" />
     <Compile Include="OrchestratorService.cs" />
+    <Compile Include="Router.cs" />
     <Compile Include="Station.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

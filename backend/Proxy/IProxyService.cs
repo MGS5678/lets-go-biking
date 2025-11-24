@@ -30,6 +30,17 @@ namespace Proxy
             BodyStyle = WebMessageBodyStyle.Bare)]
         Task<string> GetCoordsJson(string address);
 
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/route?coords1={coords1}&coords2={coords2}&meansTransport={meansTransport}",
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        Task<string> GetRoute(string coords1, string coords2, string meansTransport);
+
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/allstations",
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        Task<string> GetAllStations();
     }
 
 }
