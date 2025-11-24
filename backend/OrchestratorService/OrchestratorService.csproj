@@ -92,42 +92,16 @@
     <Content Include=".oldOrchestratorService.txt" />
     <Compile Include="ProxyClient.cs" />
     <Compile Include="OrchestratorService.cs" />
+    <Compile Include="Router.cs" />
     <Compile Include="Station.cs" />
-    <Compile Include="Connected Services\ProxyService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Connected Services\ProxyService\item.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ProxyService\item1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ProxyService\ProxyService.wsdl" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\ProxyService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ProxyService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ProxyService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ProxyService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
