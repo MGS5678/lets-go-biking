@@ -21,3 +21,9 @@ function updateStatus() {
         window.location.href = "../itinerary/itinerary.html";
     }
 }
+
+(async () => {
+    const response = await fetch("http://localhost:8733/Design_Time_Addresses/OrchestratorService/OrchestratorService/contracts?cityName=Toulouse");
+    const json = await response.json();
+    console.log(json);
+})();
