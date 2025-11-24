@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ProxyJCDecaux
+namespace Proxy
 {
     public class ProxyServer
     {
@@ -68,5 +68,48 @@ namespace ProxyJCDecaux
             return _proxyCache.Get(contractName) as string;
         }
 
+        public async Task<string> GetCoordsJson(string address)
+        {
+            if (_proxyCache.Get(address) != default)
+            {
+                Debug.WriteLine("############# CACHE UTILISE #############");
+                return _proxyCache.Get(address) as string;
+            }
+            Debug.WriteLine("############# REQUETE OPENROUTE #############");
+            var server = new OpenRouteClient(_httpClient);
+            string coordsJson = await server.GetCoordinates(address);
+            _proxyCache.Set(address, coordsJson);
+            return _proxyCache.Get(address) as string;
+        }
+
+        public async Task<string> GetRoute(string coords1, string coords2, string meansTransport)
+        {
+            Debug.WriteLine("ProxyServer.cs - GetRoute called");
+            string cacheKey = $"{coords1}-{coords2}-{meansTransport}";
+            if (_proxyCache.Get(cacheKey) != default)
+            {
+                //Debug.WriteLine("############# CACHE UTILISE #############");
+                return _proxyCache.Get(cacheKey) as string;
+            }
+            //Debug.WriteLine("############# REQUETE OPENROUTE #############");
+            var server = new OpenRouteClient(_httpClient);
+            string routeJson = await server.GetRoute(coords1, coords2, meansTransport);
+            _proxyCache.Set(cacheKey, routeJson);
+            return _proxyCache.Get(cacheKey) as string;
+        }
+
+        public async Task<string> GetAllStations()
+        {
+            if (_proxyCache.Get("all_stations") != default)
+            {
+                Debug.WriteLine("############# CACHE UTILISE #############");
+                return _proxyCache.Get("all_stations") as string;
+            }
+            Debug.WriteLine("############# REQUETE JCDECAUX #############");
+            var server = new JCDecauxClient(_httpClient);
+            string stationsJson = await server.GetAllStations();
+            _proxyCache.Set("all_stations", stationsJson);
+            return _proxyCache.Get("all_stations") as string;
+        }
     }
 }
