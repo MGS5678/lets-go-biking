@@ -1,0 +1,13 @@
+com\soap\ws\client\generated\OrchestratorService.class
+com\soc\testwsclient\TestWSClient\App.class
+com\soap\ws\client\generated\IOrchestratorService.class
+com\soap\ws\client\generated\package-info.class
+com\soap\ws\client\generated\GetContractNameFromCityResponse.class
+com\soap\ws\client\generated\GetCoordsResponse.class
+com\soap\ws\client\generated\GetContractNameFromCity.class
+com\soap\ws\client\generated\ObjectFactory.class
+com\soap\ws\client\generated\GetStations.class
+com\soap\ws\client\generated\GetRouteFromAddressesResponse.class
+com\soap\ws\client\generated\GetRouteFromAddresses.class
+com\soap\ws\client\generated\GetCoords.class
+com\soap\ws\client\generated\GetStationsResponse.class
