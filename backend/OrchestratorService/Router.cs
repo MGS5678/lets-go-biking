@@ -79,8 +79,9 @@ namespace OrchestratorService
             // deuxième trajet : entre la station 1 et la station 2
             string trajetInterStations = await _proxyClient.GetRoute(stationDepart.position.ToString(), stationArrivee.position.ToString(), "bike");
 
-            string trajetOnFoot = await _proxyClient.GetRoute(stationDepart.position.ToString(), stationArrivee.position.ToString(), "foot");
-
+            //string trajetOnFoot = await _proxyClient.GetRoute(stationDepart.position.ToString(), stationArrivee.position.ToString(), "foot");
+            string trajetOnFoot = await _proxyClient.GetRoute(coordsDepart, coordsArrivee, "foot");
+            
             JObject obj = JObject.Parse(trajetOnFoot);
             JArray features = (JArray)obj["features"];
             JObject firstFeature = (JObject)features.First;
@@ -96,7 +97,7 @@ namespace OrchestratorService
                 segments = (JObject)firstFeature["properties"]["segments"].First;
 
                 double dureeTrajet = (double)segments["duration"];
-                dureeTrajetComplet += dureeTrajetComplet;
+                dureeTrajetComplet += dureeTrajet;
             }
 
             string routeJson;
