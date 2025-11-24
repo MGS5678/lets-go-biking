@@ -36,10 +36,8 @@ namespace OrchestratorService
                 outgoing.Headers.Add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
                 outgoing.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
 
-                // Return an empty 200 OK for preflight requests
                 outgoing.StatusCode = System.Net.HttpStatusCode.OK;
 
-                // Completely short-circuit the pipeline
                 return new object();
             }
 
