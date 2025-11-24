@@ -8,15 +8,15 @@
 *.jfm
 
 ## Build results
-bin/
-obj/
-Debug/
-Release/
-x64/
-x86/
-[Aa][Rr][Mm]*/
-[Bb][Ii][Nn]/
-[Oo][Bb][Jj]/
+*/bin/
+*/obj/
+*/Debug/
+*/Release/
+*/x64/
+*/x86/
+*/[Aa][Rr][Mm]*/
+*/[Bb][Ii][Nn]/
+*/[Oo][Bb][Jj]/
 
 ## Rider
 .idea/
