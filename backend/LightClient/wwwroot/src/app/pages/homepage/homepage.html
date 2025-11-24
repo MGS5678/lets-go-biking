@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./homepage.css">
+    <title>Let's Go Biking</title>
+
+    <!-- scripts -->
+    <script src="../../search-input/search-input.js" defer></script>
+    <script src="../../app-footer/app-footer.js" defer></script>
+    <script src="../../app-header/app-header.js" defer></script>
+</head>
+<body>
+    <app-header></app-header>
+    <div id="main">
+        <div id="inputs">
+            <p>Start point</p>
+            <search-input id="start-input"></search-input>
+            <p>End point </p>
+            <search-input id="end-input"></search-input>
+        </div>
+        <div id="steps"></div>
+    </div>
+    <app-footer></app-footer>
+
+    <script src="./homepage.js" defer></script>
+</body>
+</html>

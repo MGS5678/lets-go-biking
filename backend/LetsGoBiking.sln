@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleClient", "Console\Co
 		{C0FAD676-ACF9-4A39-B137-D797E45CAC0A} = {C0FAD676-ACF9-4A39-B137-D797E45CAC0A}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightClient", "LightClient\LightClient.csproj", "{35818678-12A0-4B49-8EE8-3A7674E87E4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6F2AD949-23BE-45B0-982B-382CD03732DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F2AD949-23BE-45B0-982B-382CD03732DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F2AD949-23BE-45B0-982B-382CD03732DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35818678-12A0-4B49-8EE8-3A7674E87E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35818678-12A0-4B49-8EE8-3A7674E87E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35818678-12A0-4B49-8EE8-3A7674E87E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35818678-12A0-4B49-8EE8-3A7674E87E4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
