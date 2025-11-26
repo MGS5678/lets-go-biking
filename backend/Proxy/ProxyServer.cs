@@ -109,6 +109,7 @@ namespace Proxy
             var server = new JCDecauxClient(_httpClient);
             string stationsJson = await server.GetAllStations();
             _proxyCache.Set("all_stations", stationsJson);
+            Debug.WriteLine("ProxyServer.cs - GetAllStations - returned all stations");
             return _proxyCache.Get("all_stations") as string;
         }
     }

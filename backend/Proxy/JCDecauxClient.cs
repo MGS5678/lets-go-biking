@@ -1,10 +1,11 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using static System.Net.WebRequestMethods;
 
 namespace Proxy
 {
@@ -68,7 +69,8 @@ namespace Proxy
 
         public async Task<string> GetAllStations() // recup les stations au format json 
         {
-            string requestUrl = $"https://api.jcdecaux.com/vls/v3/stations?apiKey={apiKey}";
+            //string requestUrl = "https://api.jcdecaux.com/vls/v3/" + "stations?apiKey=" + apiKey;
+            string requestUrl = url + "stations?apiKey=" + apiKey;
             Debug.WriteLine("JCDecauxClient.cs");
             Debug.WriteLine(requestUrl);
             HttpResponseMessage response = await _httpClient.GetAsync(requestUrl);

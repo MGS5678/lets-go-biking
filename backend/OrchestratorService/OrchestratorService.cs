@@ -74,7 +74,7 @@ namespace OrchestratorService
             Debug.WriteLine($"OrchestratorService.cs - GetRouteFromAddresses parameters: address1={address1}, address2={address2}");
             if (string.IsNullOrWhiteSpace(address1) || string.IsNullOrWhiteSpace(address2))
                 return string.Empty;
-            string routeJson = await router.GetFullRoute(address1, address2);
+            string routeJson = await router.GetRoute(address1, address2);
             return routeJson;
         }
     }

@@ -9,8 +9,26 @@ public class Station
 {
     [JsonProperty("number")]
     public int number { get; set; }
+
     [JsonProperty("contract_name")]
-    public string contract_name { get; set; }
+    private string _contractNameSnake
+    {
+        set => contract_name = value;
+    }
+
+    [JsonProperty("contractName")]
+    private string _contractNameCamel
+    {
+        set => contract_name = value;
+    }
+
+
+    [JsonIgnore]
+    public string contract_name
+    {
+        get; set;
+    }
+
     [JsonProperty("name")]
     public string name { get; set; }
     [JsonProperty("address")]
@@ -37,6 +55,10 @@ public class Station
     {
         // empty for json
     }
-
+    override
+    public string ToString()
+    {
+        return $"Station: {name}, Contract Name: {contract_name}, Position: {position}";
+    }
 
 }
