@@ -46,6 +46,7 @@ async function updateStatus() {
 
     const response = await fetch(url);
     const json = JSON.parse(await response.json());
+    console.log(json);
 
     for (const mapObject of mapObjects) {
         mapObject.remove();
