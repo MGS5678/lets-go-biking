@@ -3,11 +3,11 @@ using System;
 
 public class Coordinate
 {
+    [JsonProperty("longitude")]
+    private double lng { get; set; }
     [JsonProperty("latitude")]
     private double lat { get; set; }
 
-    [JsonProperty("longitude")]
-    private double lng { get; set; }
 
     public Coordinate()
     {
@@ -52,6 +52,6 @@ public class Coordinate
     override
     public string ToString()
     {
-        return "[" + lng.ToString().Replace(',', '.') + "," + lat.ToString().Replace(',', '.') + "]";
+        return "[" + lat.ToString().Replace(',', '.') + "," + lng.ToString().Replace(',', '.') + "]";
     }
 }
