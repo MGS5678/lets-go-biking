@@ -28,8 +28,8 @@ namespace OrchestratorService
                 return null;
 
             var addressCoords = JsonConvert.DeserializeObject<double[]>(coordsPosition);
-            double addressLng = addressCoords[0];
-            double addressLat = addressCoords[1];
+            double addressLat = addressCoords[0];
+            double addressLng = addressCoords[1];
 
 
             if (stations == null || !stations.Any())
@@ -53,16 +53,18 @@ namespace OrchestratorService
                     }
                 }
             }
-            Debug.WriteLine("Distance à la station la plus proche : " + minDistance + " km");
-            Debug.WriteLine("Coordonnées de la station la plus proche : " + nearestStation.position.ToString());
             return nearestStation != null ? nearestStation : null;
         }
 
-        public Station GetNearestStationWithContract(string coordsPosition, List<Station> stations, string contractName)
+        public Station GetNearestStationWithContract(string coordsPosition, List<Station> stations, string contract_name)
         {
-            if (string.IsNullOrEmpty(contractName))
+            if (string.IsNullOrEmpty(contract_name))
+            {
                 return null;
-            List<Station> stationsInContract = stations.Where(s => s.status == contractName).ToList();
+            }
+
+            List<Station> stationsInContract = stations.Where(s => s.contract_name == contract_name).ToList();
+
             return GetNearestStation(stationsInContract, coordsPosition);
         }
 
@@ -141,57 +143,13 @@ namespace OrchestratorService
             possibleRoutes.Add(trajetD_SD_SD2_A);
             possibleRoutes.Add(trajetD_SD_SD2_SA2_SA_A);
             possibleRoutes.Add(trajetD_SA2_SA_A);
-
+            Debug.WriteLine("Router.cs - GetRoute - possible routes calculated");
             trajetLePlusCourt = GetShortestRoute(possibleRoutes);
-
+            Debug.WriteLine("Router.cs - GetRoute - shortest route determined");
+            Debug.WriteLine("Shortest route details: " + string.Join(",", trajetLePlusCourt));
             string trajetFinal = "[" + string.Join(",", trajetLePlusCourt) + "]";
-
+            Debug.WriteLine("Router.cs - GetRoute - returned final route");
             return trajetFinal;
-
-            //if (stationD.number == stationD2.number) { }
-
-            //if (stationA.number == stationA2.number)
-            //{
-            //    if (stationD.number == stationD2.number)
-            //    {
-            //        return trajetOnFoot;
-            //    }
-            //    string trajetSD_SD2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationD2.position.ToString(), "bike");
-            //    string trajetSD2_A = await _proxyClient.GetRoute(stationD2.position.ToString(), coordsArrivee, "foot");
-            //    return "[" + trajetD_SD + "," + trajetSD_SD2 + "," + trajetSD2_A + "]";
-            //}
-            //string trajetSD2_Arrivee = await _proxyClient.GetRoute(stationD2.position.ToString(), coordsArrivee, "foot");
-
-            //string trajetSD2_SA2 = await _proxyClient.GetRoute(stationD2.position.ToString(), stationA2.position.ToString(), "foot");
-            //string trajetSA2_SA = await _proxyClient.GetRoute(stationA2.position.ToString(), stationA.position.ToString(), "bike");
-            //string trajetSA_Arrivee = await _proxyClient.GetRoute(stationA.position.ToString(), coordsArrivee, "foot");
-
-            //double dureeTrajetSD2_Arrivee = GetDuration(trajetSD2_Arrivee);
-
-            //double dureeTrajetSD2_SA2 = GetDuration(trajetSD2_SA2);
-            //double dureeTrajetSA2_SA = GetDuration(trajetSA2_SA);
-            //double dureeTrajetSA_Arrivee = GetDuration(trajetSA_Arrivee);
-
-            //double dureeTrajetSD2_SA2_SA_Arrivee = dureeTrajetSD2_SA2 + dureeTrajetSA2_SA + dureeTrajetSA_Arrivee;
-
-            //if (dureeTrajetSD2_Arrivee < dureeTrajetSD2_SA2_SA_Arrivee)
-            //{
-            //    if (stationD.number == stationD2.number)
-            //    {
-            //        return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetSD2_Arrivee });
-            //    }
-            //    string trajetSD_SD2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationD2.position.ToString(), "bike");
-            //    return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetSD_SD2, trajetSD2_Arrivee });
-            //}
-            //else
-            //{
-            //    if (stationD.number == stationD2.number)
-            //    {
-            //        return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetSD2_SA2, trajetSA2_SA, trajetSA_Arrivee });
-            //    }
-            //    string trajetSD_SD2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationD2.position.ToString(), "bike");
-            //    return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetSD_SD2, trajetSD2_SA2, trajetSA2_SA, trajetSA_Arrivee });
-            //}
 
         }
 
@@ -199,72 +157,6 @@ namespace OrchestratorService
 
 
     }
-    //public async Task<string> GetFullRoute(string address1, string address2)
-    //{
-    //    Debug.WriteLine("Router.cs - GetFullRoute called");
-    //    Debug.WriteLine($"Router.cs - GetFullRoute parameters: address1={address1}, address2={address2}");
-    //    // premier trajet : entre la adresse 1 et la station la plus proche de l'adresse 1
-    //    string coordsDepart = await _proxyClient.GetCoords(address1);
-    //    Station stationDepart = await GetNearestStation(coordsDepart);
-    //    Debug.WriteLine("Station de départ choisie : " + stationDepart.name + stationDepart.position.ToString());
-    //    string trajetStationDepart = await _proxyClient.GetRoute(coordsDepart, stationDepart.position.ToString(), "foot");
-
-    //    // troisième trajet : entre la station la plus proche de l'adresse 2 et l'adresse 2
-    //    string coordsArrivee = await _proxyClient.GetCoords(address2);
-    //    Station stationArrivee = await GetNearestStation(coordsArrivee);
-    //    string trajetStationArrivee = await _proxyClient.GetRoute(stationArrivee.position.ToString(), coordsArrivee, "foot");
-
-    //    // deuxième trajet : entre la station 1 et la station 2
-    //    string trajetInterStations = await _proxyClient.GetRoute(stationDepart.position.ToString(), stationArrivee.position.ToString(), "bike");
-
-    //    string trajetOnFoot = await _proxyClient.GetRoute(coordsDepart, coordsArrivee, "foot");
-
-    //    JObject obj = JObject.Parse(trajetOnFoot);
-    //    JArray features = (JArray)obj["features"];
-    //    JObject firstFeature = (JObject)features.First;
-    //    JObject segments = (JObject)firstFeature["properties"]["segments"].First;
-    //    double dureeTrajetOnFoot = (double)segments["duration"];
-
-    //    double dureeTrajetComplet = 0;
-    //    foreach (string trajet in new string[] { trajetStationDepart, trajetInterStations, trajetStationArrivee })
-    //    {
-    //        obj = JObject.Parse(trajet);
-    //        features = (JArray)obj["features"];
-    //        firstFeature = (JObject)features.First;
-    //        segments = (JObject)firstFeature["properties"]["segments"].First;
-
-    //        double dureeTrajet = (double)segments["duration"];
-    //        dureeTrajetComplet += dureeTrajet;
-    //    }
-
-    //    string routeJson;
-    //    string mode;
-
-    //    if (dureeTrajetComplet < dureeTrajetOnFoot)
-    //    {
-    //        var routeObject = new JObject
-    //        {
-    //            ["trajet1"] = JObject.Parse(trajetStationDepart),
-    //            ["trajet2"] = JObject.Parse(trajetInterStations),
-    //            ["trajet3"] = JObject.Parse(trajetStationArrivee)
-    //        };
-    //        routeJson = routeObject.ToString(Formatting.None);
-    //        mode = "multimodal";
-    //    }
-    //    else
-    //    {
-    //        routeJson = trajetOnFoot;
-    //        mode = "foot";
-    //    }
-
-    //    var result = new JObject
-    //    {
-    //        ["route"] = JToken.Parse(routeJson),
-    //        ["mode"] = mode
-    //    };
-
-    //    return result.ToString(Formatting.None);
-    //}
 
 }
 

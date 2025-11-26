@@ -1,7 +1,7 @@
 const bikeIcon = L.icon({
-  iconUrl: "../../../assets/images/bike.png",  // path to your bike image
-  iconSize: [32, 32],
-  iconAnchor: [16, 32]
+    iconUrl: "../../../assets/images/bike.png",  // path to your bike image
+    iconSize: [32, 32],
+    iconAnchor: [16, 32]
 });
 
 const retrievedStartPoint = JSON.parse(sessionStorage.getItem("startPoint"));
@@ -46,7 +46,7 @@ async function updateStatus() {
 
     const response = await fetch(url);
     const json = JSON.parse(await response.json());
-
+    console.log(json);
     for (const mapObject of mapObjects) {
         mapObject.remove();
     }

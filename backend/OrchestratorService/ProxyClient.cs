@@ -78,6 +78,7 @@ public class ProxyClient
         var routeJson = await response.Content.ReadAsStringAsync();
         string actualJson = JsonConvert.DeserializeObject<string>(routeJson);
         Debug.WriteLine("ProxyClient.cs - GetRoute - returned route for transport: " + meansTransport);
+        Debug.WriteLine("Route JSON: " + actualJson);
         return actualJson;
     }
 

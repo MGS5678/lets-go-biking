@@ -3,10 +3,10 @@ using System;
 
 public class Coordinate
 {
-    [JsonProperty("longitude")]
-    private double lng { get; set; }
-    [JsonProperty("latitude")]
+    [JsonProperty("lat")]
     private double lat { get; set; }
+    [JsonProperty("lng")]
+    private double lng { get; set; }
 
 
     public Coordinate()

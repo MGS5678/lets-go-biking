@@ -37,6 +37,10 @@ public class Station
     {
         // empty for json
     }
-
+    override
+    public string ToString()
+    {
+        return $"Station {number}: {name}, Address: {address}, Position: {position}, Bikes Available: {available_bikes}/{bike_stands}, Status: {status}";
+    }
 
 }
