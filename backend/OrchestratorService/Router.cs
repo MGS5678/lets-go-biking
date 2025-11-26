@@ -76,103 +76,122 @@ namespace OrchestratorService
             return dureeTrajet;
         }
 
-        public string GetFinalRoute(string trajetOnFoot, List<string> trajets)
+        public List<string> GetShortestRoute(List<List<string>> trajets)
         {
-            double dureeTrajetOnFoot = GetDuration(trajetOnFoot);
-            double dureeTrajetComplet = 0;
-            foreach (string trajet in trajets)
+            List<double> durees = new List<double>();
+            foreach (List<string> trajet in trajets)
             {
-                double dureeTrajet = GetDuration(trajet);
-                if (dureeTrajetOnFoot < dureeTrajet)
+                double dureeTotale = 0;
+                foreach (string segment in trajet)
                 {
-                    return "[" + trajetOnFoot + "]";
+                    dureeTotale += GetDuration(segment);
                 }
-                dureeTrajetComplet += dureeTrajet;
+                durees.Add(dureeTotale);
             }
-            if (dureeTrajetComplet < dureeTrajetOnFoot)
-            {
-                string trajetComplexe = "[";
-                foreach (string trajet in trajets)
-                {
-                    trajetComplexe += trajet + ",";
-                }
-                trajetComplexe = trajetComplexe.TrimEnd(',') + "]";
-                return trajetComplexe;
-            }
-            return "[" + trajetOnFoot + "]";
+            int indexMin = durees.IndexOf(durees.Min());
+            return trajets[indexMin];
+
         }
 
         public async Task<string> GetRoute(string address1, string address2) //changer les paramètres pour pouvoir lutiliser sur plusieurs trajets
         {
             Debug.WriteLine("Router.cs - GetRoute called");
+
             string coordsDepart = await _proxyClient.GetCoords(address1);
             string coordsArrivee = await _proxyClient.GetCoords(address2);
-            string trajetOnFoot = await _proxyClient.GetRoute(coordsDepart, coordsArrivee, "foot");
+
             List<Station> allStations = JsonConvert.DeserializeObject<List<Station>>(await _proxyClient.GetAllStations());
+
             Station stationD = GetNearestStation(allStations, coordsDepart);
             Station stationA = GetNearestStation(allStations, coordsArrivee);
 
-            string trajetD_SD = await _proxyClient.GetRoute(coordsDepart, stationD.position.ToString(), "foot");
+            List<List<string>> possibleRoutes = new List<List<string>>();
+            List<string> trajetLePlusCourt;
+            List<string> trajetOnFoot = new List<string> { await _proxyClient.GetRoute(coordsDepart, coordsArrivee, "foot") };
+            possibleRoutes.Add(trajetOnFoot);
 
+            string trajetD_SD = await _proxyClient.GetRoute(coordsDepart, stationD.position.ToString(), "foot");
+            string trajetSA_A = await _proxyClient.GetRoute(stationA.position.ToString(), coordsArrivee, "foot");
+
+            // cas same contract
             if (stationD.contract_name == stationA.contract_name)
             {
                 string trajetInterStations = await _proxyClient.GetRoute(stationD.position.ToString(), stationA.position.ToString(), "bike");
-                string trajetStationArrivee = await _proxyClient.GetRoute(stationA.position.ToString(), coordsArrivee, "foot");
-                double dureeTrajetComplet = GetDuration(trajetD_SD) + GetDuration(trajetInterStations) + GetDuration(trajetStationArrivee);
-                double dureeTrajetOnFoot = GetDuration(trajetOnFoot);
-
-                return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetInterStations, trajetStationArrivee });
+                List<string> trajetComplet = new List<string> { trajetD_SD, trajetInterStations, trajetSA_A };
+                possibleRoutes.Add(trajetComplet);
+                trajetLePlusCourt = GetShortestRoute(possibleRoutes);
+                return "[" + string.Join(",", trajetLePlusCourt) + "]";
             }
-
+            // cas different contract
 
             Station stationD2 = GetNearestStationWithContract(coordsArrivee, allStations, stationD.contract_name);
             Station stationA2 = GetNearestStationWithContract(stationD2.position.ToString(), allStations, stationA.contract_name);
+            // pourquoi ne pas plutot ou aussi faire stationA2 = GetNearestStationWithContract(coordsDepart, allStations, stationA.contract_name); ?
+            // et stationD2 = GetNearestStationWithContract(stationA2.position.ToString(), allStations, stationD.contract_name); ?
 
-
-            if (stationD.number == stationD2.number) { }
-
-            if (stationA.number == stationA2.number)
-            {
-                if (stationD.number == stationD2.number)
-                {
-                    return trajetOnFoot;
-                }
-                string trajetSD_SD2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationD2.position.ToString(), "bike");
-                string trajetSD2_A = await _proxyClient.GetRoute(stationD2.position.ToString(), coordsArrivee, "foot");
-                return "[" + trajetD_SD + "," + trajetSD_SD2 + "," + trajetSD2_A + "]";
-            }
-            string trajetSD2_Arrivee = await _proxyClient.GetRoute(stationD2.position.ToString(), coordsArrivee, "foot");
-
+            string trajetSD_SD2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationD2.position.ToString(), "bike");
+            string trajetSD2_A = await _proxyClient.GetRoute(stationD2.position.ToString(), coordsArrivee, "foot");
             string trajetSD2_SA2 = await _proxyClient.GetRoute(stationD2.position.ToString(), stationA2.position.ToString(), "foot");
             string trajetSA2_SA = await _proxyClient.GetRoute(stationA2.position.ToString(), stationA.position.ToString(), "bike");
-            string trajetSA_Arrivee = await _proxyClient.GetRoute(stationA.position.ToString(), coordsArrivee, "foot");
+            string trajetD_SA2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationA2.position.ToString(), "foot");
 
-            double dureeTrajetSD2_Arrivee = GetDuration(trajetSD2_Arrivee);
+            List<string> trajetD_SD_SD2_A = new List<string> { trajetD_SD, trajetSD_SD2, trajetSD2_A };
+            List<string> trajetD_SD_SD2_SA2_SA_A = new List<string> { trajetD_SD, trajetSD_SD2, trajetSD2_SA2, trajetSA2_SA, trajetSA_A };
+            List<string> trajetD_SA2_SA_A = new List<string> { trajetD_SA2, trajetSA2_SA, trajetSA_A };
+            possibleRoutes.Add(trajetD_SD_SD2_A);
+            possibleRoutes.Add(trajetD_SD_SD2_SA2_SA_A);
+            possibleRoutes.Add(trajetD_SA2_SA_A);
 
-            double dureeTrajetSD2_SA2 = GetDuration(trajetSD2_SA2);
-            double dureeTrajetSA2_SA = GetDuration(trajetSA2_SA);
-            double dureeTrajetSA_Arrivee = GetDuration(trajetSA_Arrivee);
+            trajetLePlusCourt = GetShortestRoute(possibleRoutes);
 
-            double dureeTrajetSD2_SA2_SA_Arrivee = dureeTrajetSD2_SA2 + dureeTrajetSA2_SA + dureeTrajetSA_Arrivee;
+            string trajetFinal = "[" + string.Join(",", trajetLePlusCourt) + "]";
 
-            if (dureeTrajetSD2_Arrivee < dureeTrajetSD2_SA2_SA_Arrivee)
-            {
-                if (stationD.number == stationD2.number)
-                {
-                    return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetSD2_Arrivee });
-                }
-                string trajetSD_SD2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationD2.position.ToString(), "bike");
-                return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetSD_SD2, trajetSD2_Arrivee });
-            }
-            else
-            {
-                if (stationD.number == stationD2.number)
-                {
-                    return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetSD2_SA2, trajetSA2_SA, trajetSA_Arrivee });
-                }
-                string trajetSD_SD2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationD2.position.ToString(), "bike");
-                return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetSD_SD2, trajetSD2_SA2, trajetSA2_SA, trajetSA_Arrivee });
-            }
+            return trajetFinal;
+
+            //if (stationD.number == stationD2.number) { }
+
+            //if (stationA.number == stationA2.number)
+            //{
+            //    if (stationD.number == stationD2.number)
+            //    {
+            //        return trajetOnFoot;
+            //    }
+            //    string trajetSD_SD2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationD2.position.ToString(), "bike");
+            //    string trajetSD2_A = await _proxyClient.GetRoute(stationD2.position.ToString(), coordsArrivee, "foot");
+            //    return "[" + trajetD_SD + "," + trajetSD_SD2 + "," + trajetSD2_A + "]";
+            //}
+            //string trajetSD2_Arrivee = await _proxyClient.GetRoute(stationD2.position.ToString(), coordsArrivee, "foot");
+
+            //string trajetSD2_SA2 = await _proxyClient.GetRoute(stationD2.position.ToString(), stationA2.position.ToString(), "foot");
+            //string trajetSA2_SA = await _proxyClient.GetRoute(stationA2.position.ToString(), stationA.position.ToString(), "bike");
+            //string trajetSA_Arrivee = await _proxyClient.GetRoute(stationA.position.ToString(), coordsArrivee, "foot");
+
+            //double dureeTrajetSD2_Arrivee = GetDuration(trajetSD2_Arrivee);
+
+            //double dureeTrajetSD2_SA2 = GetDuration(trajetSD2_SA2);
+            //double dureeTrajetSA2_SA = GetDuration(trajetSA2_SA);
+            //double dureeTrajetSA_Arrivee = GetDuration(trajetSA_Arrivee);
+
+            //double dureeTrajetSD2_SA2_SA_Arrivee = dureeTrajetSD2_SA2 + dureeTrajetSA2_SA + dureeTrajetSA_Arrivee;
+
+            //if (dureeTrajetSD2_Arrivee < dureeTrajetSD2_SA2_SA_Arrivee)
+            //{
+            //    if (stationD.number == stationD2.number)
+            //    {
+            //        return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetSD2_Arrivee });
+            //    }
+            //    string trajetSD_SD2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationD2.position.ToString(), "bike");
+            //    return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetSD_SD2, trajetSD2_Arrivee });
+            //}
+            //else
+            //{
+            //    if (stationD.number == stationD2.number)
+            //    {
+            //        return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetSD2_SA2, trajetSA2_SA, trajetSA_Arrivee });
+            //    }
+            //    string trajetSD_SD2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationD2.position.ToString(), "bike");
+            //    return GetFinalRoute(trajetOnFoot, new List<string> { trajetD_SD, trajetSD_SD2, trajetSD2_SA2, trajetSA2_SA, trajetSA_Arrivee });
+            //}
 
         }
 
@@ -248,4 +267,4 @@ namespace OrchestratorService
     //}
 
 }
-}
+
