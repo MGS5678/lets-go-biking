@@ -24,6 +24,7 @@ namespace OrchestratorService
 
         public Station GetNearestStation(List<Station> stations, string coordsPosition)
         {
+            Debug.WriteLine("Router.cs - GetNearestStation called");
             if (string.IsNullOrEmpty(coordsPosition))
                 return null;
 
@@ -103,10 +104,13 @@ namespace OrchestratorService
             string coordsArrivee = await _proxyClient.GetCoords(address2);
 
             List<Station> allStations = JsonConvert.DeserializeObject<List<Station>>(await _proxyClient.GetAllStations());
-
+            Debug.WriteLine("Router.cs : got all stations");
             Station stationD = GetNearestStation(allStations, coordsDepart);
             Station stationA = GetNearestStation(allStations, coordsArrivee);
-
+            Debug.WriteLine("depart :" + coordsDepart);
+            Debug.WriteLine("stationD :" + stationD);
+            Debug.WriteLine("stationA :" + stationA);
+            Debug.WriteLine("arrivee :" + coordsArrivee);
             List<List<string>> possibleRoutes = new List<List<string>>();
             List<string> trajetLePlusCourt;
             List<string> trajetOnFoot = new List<string> { await _proxyClient.GetRoute(coordsDepart, coordsArrivee, "foot") };
@@ -131,11 +135,13 @@ namespace OrchestratorService
             // pourquoi ne pas plutot ou aussi faire stationA2 = GetNearestStationWithContract(coordsDepart, allStations, stationA.contract_name); ?
             // et stationD2 = GetNearestStationWithContract(stationA2.position.ToString(), allStations, stationD.contract_name); ?
 
+            Debug.WriteLine("station D2:" + stationD2);
+            Debug.WriteLine("station A2:" + stationA2);
             string trajetSD_SD2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationD2.position.ToString(), "bike");
             string trajetSD2_A = await _proxyClient.GetRoute(stationD2.position.ToString(), coordsArrivee, "foot");
             string trajetSD2_SA2 = await _proxyClient.GetRoute(stationD2.position.ToString(), stationA2.position.ToString(), "foot");
             string trajetSA2_SA = await _proxyClient.GetRoute(stationA2.position.ToString(), stationA.position.ToString(), "bike");
-            string trajetD_SA2 = await _proxyClient.GetRoute(stationD.position.ToString(), stationA2.position.ToString(), "foot");
+            string trajetD_SA2 = await _proxyClient.GetRoute(coordsDepart, stationA2.position.ToString(), "foot");
 
             List<string> trajetD_SD_SD2_A = new List<string> { trajetD_SD, trajetSD_SD2, trajetSD2_A };
             List<string> trajetD_SD_SD2_SA2_SA_A = new List<string> { trajetD_SD, trajetSD_SD2, trajetSD2_SA2, trajetSA2_SA, trajetSA_A };
@@ -146,7 +152,11 @@ namespace OrchestratorService
             Debug.WriteLine("Router.cs - GetRoute - possible routes calculated");
             trajetLePlusCourt = GetShortestRoute(possibleRoutes);
             Debug.WriteLine("Router.cs - GetRoute - shortest route determined");
-            Debug.WriteLine("Shortest route details: " + string.Join(",", trajetLePlusCourt));
+
+            foreach (string segment in trajetLePlusCourt)
+            {
+                Debug.WriteLine("###############Router.cs - GetRoute - segment in shortest route: " + segment);
+            }
             string trajetFinal = "[" + string.Join(",", trajetLePlusCourt) + "]";
             Debug.WriteLine("Router.cs - GetRoute - returned final route");
             return trajetFinal;

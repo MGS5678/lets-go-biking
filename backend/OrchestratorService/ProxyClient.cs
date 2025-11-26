@@ -89,6 +89,7 @@ public class ProxyClient
         response.EnsureSuccessStatusCode();
         var allStationsJson = await response.Content.ReadAsStringAsync();
         string actualJson = JsonConvert.DeserializeObject<string>(allStationsJson);
+        Debug.WriteLine("ProxyClient.cs - GetAllStations - returned all stations");
         return actualJson;
     }
 }

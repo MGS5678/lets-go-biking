@@ -45,6 +45,7 @@ namespace Proxy
         public async Task<string> GetAllStations()
         {
             string allStationsJson = await proxy.GetAllStations();
+            Debug.WriteLine("ProxyService.cs - GetAllStations - returned allStationsJson");
             return allStationsJson;
         }
     }
