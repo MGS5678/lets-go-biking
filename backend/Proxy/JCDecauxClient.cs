@@ -1,10 +1,12 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Proxy.valueobjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 using static System.Net.WebRequestMethods;
 
 namespace Proxy
@@ -20,13 +22,14 @@ namespace Proxy
             _httpClient = httpClient;
         }
 
-        public async Task<Dictionary<string, List<string>>> GetContracts() // r�cup�re les contrats et les met dans un dico
+        public async Task<List<Contract>> GetContracts() // récupère les contrats et les mets dans un dico
         {
             HttpResponseMessage response = await _httpClient.GetAsync(url + "contracts?apiKey=" + apiKey);
 
             if (response.IsSuccessStatusCode)
             {
-                string responseMessage = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Contract>>(await response.Content.ReadAsStringAsync());
+                /*string responseMessage = await response.Content.ReadAsStringAsync();
                 JArray parsedData = JArray.Parse(responseMessage);
                 Dictionary<string, List<string>> contracts = new Dictionary<string, List<string>>();
                 foreach (var item in parsedData)
@@ -35,7 +38,7 @@ namespace Proxy
                     List<string> cities = item["cities"].ToObject<List<string>>();
                     contracts[contractName] = cities;
                 }
-                return contracts;
+                return contracts;*/
 
             }
             else
@@ -45,7 +48,7 @@ namespace Proxy
             }
         }
 
-        public async Task<string> GetStations(string contractName) // recup les stations au format json 
+        public async Task<List<Station>> GetStations(string contractName) // recup les stations au format json 
         {
             string cleanContractName = contractName?.Trim('"') ?? contractName;
 
@@ -58,7 +61,7 @@ namespace Proxy
             {
                 string responseMessage = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine("JCDecauxClient.cs - GetStations - returned stations for contract: " + cleanContractName);
-                return responseMessage;
+                return JsonConvert.DeserializeObject<List<Station>>(responseMessage);
             }
             else
             {
@@ -67,7 +70,7 @@ namespace Proxy
             }
         }
 
-        public async Task<string> GetAllStations() // recup les stations au format json 
+        public async Task<List<Station>> GetAllStations() // recup les stations au format json 
         {
             //string requestUrl = "https://api.jcdecaux.com/vls/v3/" + "stations?apiKey=" + apiKey;
             string requestUrl = url + "stations?apiKey=" + apiKey;
@@ -78,7 +81,7 @@ namespace Proxy
             {
                 string responseMessage = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine("JCDecauxClient.cs - GetAllStations - returned all stations");
-                return responseMessage;
+                return JsonConvert.DeserializeObject<List<Station>>(responseMessage);
             }
             else
             {
