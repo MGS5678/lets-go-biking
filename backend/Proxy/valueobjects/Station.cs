@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Web;
 
@@ -11,24 +10,7 @@ public class Station
     public int number { get; set; }
 
     [JsonProperty("contract_name")]
-    private string _contractNameSnake
-    {
-        set => contract_name = value;
-    }
-
-    [JsonProperty("contractName")]
-    private string _contractNameCamel
-    {
-        set => contract_name = value;
-    }
-
-
-    [JsonIgnore]
-    public string contract_name
-    {
-        get; set;
-    }
-
+    public string contract_name{ get; set; }
     [JsonProperty("name")]
     public string name { get; set; }
     [JsonProperty("address")]

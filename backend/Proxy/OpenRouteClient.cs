@@ -20,7 +20,7 @@ namespace Proxy
             _httpClient = httpClient;
         }
 
-        public async Task<string> GetCoordinates(string address) // recup les coords en json
+        public async Task<Coordinate> GetCoordinates(string address) // recup les coords en json
         {
             string url = "https://api.openrouteservice.org/geocode/";
             string cleanAddress = address?.Trim('"') ?? address;
@@ -41,12 +41,15 @@ namespace Proxy
                 if (features != null && features.Count > 0)
                 {
                     JObject firstFeature = (JObject)features[0];
-                    JArray coords = (JArray)firstFeature["geometry"]["coordinates"];
+                    JArray coordsWRONG = (JArray)firstFeature["geometry"]["coordinates"];
+                    // OPENROUTE CES GENIES QUI INVERSENT LATITUDE ET LONGITUDE !!!
+                    double latitude = (double)coordsWRONG[1];
+                    double longitude = (double)coordsWRONG[0];
+                    Coordinate coords = new Coordinate(latitude, longitude);
 
-                    string coordsJsonString = coords.ToString(Newtonsoft.Json.Formatting.None);
-                    Debug.WriteLine("OpenRouteClient.cs - GetCoordinates - returned coordinates for address: " + cleanAddress);
-                    Debug.WriteLine("Coordinates JSON: " + coordsJsonString);
-                    return coordsJsonString;
+                    Debug.WriteLine("OpenRouteClient.cs - GetCoordinates - returned coordinates for address: " + coords);
+                    Debug.WriteLine("Coordinates: " + coords);
+                    return coords;
                 }
                 else
                 {
@@ -78,6 +81,11 @@ namespace Proxy
             coords2 = coords2.Trim('"');
             coords1 = coords1.Trim('[', ']');
             coords2 = coords2.Trim('[', ']');
+
+            string[] coords1Liste = coords1.Split(',');
+            string[] coords2Liste = coords2.Split(',');
+            coords1 = $"{coords1Liste[1]},{coords1Liste[0]}"; // INVERSION LATITUDE LONGITUDE au moins ils sont cohérents chez openroute
+            coords2 = $"{coords2Liste[1]},{coords2Liste[0]}"; // INVERSION LATITUDE LONGITUDE
             string requestUrl = $"{url}{meansTransport}?api_key={apiKey}&start={coords1}&end={coords2}";
             Debug.WriteLine("OpenRouteClient.cs");
             Debug.WriteLine(requestUrl);
@@ -86,8 +94,6 @@ namespace Proxy
             {
                 Debug.WriteLine("succes de la requete de route");
                 string responseMessage = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine("OpenRouteClient.cs - GetRoute - returned route from " + coords1 + " to " + coords2 + " by " + meansTransport);
-                Debug.Write(responseMessage);
                 return responseMessage;
             }
             else

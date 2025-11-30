@@ -12,17 +12,6 @@ namespace Proxy
     [ServiceContract]
     public interface IProxyService
     {
-        [OperationContract]
-        [WebGet(ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/contractName?city={cityName}",
-            BodyStyle = WebMessageBodyStyle.Bare)]
-        Task<string> GetContractNameFromCity(string cityName);
-
-        [OperationContract]
-        [WebGet(ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/stations?contract={contractName}",
-            BodyStyle = WebMessageBodyStyle.Bare)]
-        Task<string> GetStationsJson(string contractName);
 
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json,
