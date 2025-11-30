@@ -49,10 +49,6 @@ public class ObjectFactory {
     private static final QName _Char_QNAME = new QName("http://schemas.microsoft.com/2003/10/Serialization/", "char");
     private static final QName _Duration_QNAME = new QName("http://schemas.microsoft.com/2003/10/Serialization/", "duration");
     private static final QName _Guid_QNAME = new QName("http://schemas.microsoft.com/2003/10/Serialization/", "guid");
-    private static final QName _GetContractNameFromCityCityName_QNAME = new QName("http://tempuri.org/", "cityName");
-    private static final QName _GetContractNameFromCityResponseGetContractNameFromCityResult_QNAME = new QName("http://tempuri.org/", "GetContractNameFromCityResult");
-    private static final QName _GetStationsContract_QNAME = new QName("http://tempuri.org/", "contract");
-    private static final QName _GetStationsResponseGetStationsResult_QNAME = new QName("http://tempuri.org/", "GetStationsResult");
     private static final QName _GetCoordsAddress_QNAME = new QName("http://tempuri.org/", "address");
     private static final QName _GetCoordsResponseGetCoordsResult_QNAME = new QName("http://tempuri.org/", "GetCoordsResult");
     private static final QName _GetRouteFromAddressesAddress1_QNAME = new QName("http://tempuri.org/", "address1");
@@ -64,46 +60,6 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link GetContractNameFromCity }
-     * 
-     * @return
-     *     the new instance of {@link GetContractNameFromCity }
-     */
-    public GetContractNameFromCity createGetContractNameFromCity() {
-        return new GetContractNameFromCity();
-    }
-
-    /**
-     * Create an instance of {@link GetContractNameFromCityResponse }
-     * 
-     * @return
-     *     the new instance of {@link GetContractNameFromCityResponse }
-     */
-    public GetContractNameFromCityResponse createGetContractNameFromCityResponse() {
-        return new GetContractNameFromCityResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetStations }
-     * 
-     * @return
-     *     the new instance of {@link GetStations }
-     */
-    public GetStations createGetStations() {
-        return new GetStations();
-    }
-
-    /**
-     * Create an instance of {@link GetStationsResponse }
-     * 
-     * @return
-     *     the new instance of {@link GetStationsResponse }
-     */
-    public GetStationsResponse createGetStationsResponse() {
-        return new GetStationsResponse();
     }
 
     /**
@@ -417,58 +373,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://schemas.microsoft.com/2003/10/Serialization/", name = "guid")
     public JAXBElement<String> createGuid(String value) {
         return new JAXBElement<>(_Guid_QNAME, String.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://tempuri.org/", name = "cityName", scope = GetContractNameFromCity.class)
-    public JAXBElement<String> createGetContractNameFromCityCityName(String value) {
-        return new JAXBElement<>(_GetContractNameFromCityCityName_QNAME, String.class, GetContractNameFromCity.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://tempuri.org/", name = "GetContractNameFromCityResult", scope = GetContractNameFromCityResponse.class)
-    public JAXBElement<String> createGetContractNameFromCityResponseGetContractNameFromCityResult(String value) {
-        return new JAXBElement<>(_GetContractNameFromCityResponseGetContractNameFromCityResult_QNAME, String.class, GetContractNameFromCityResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://tempuri.org/", name = "contract", scope = GetStations.class)
-    public JAXBElement<String> createGetStationsContract(String value) {
-        return new JAXBElement<>(_GetStationsContract_QNAME, String.class, GetStations.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://tempuri.org/", name = "GetStationsResult", scope = GetStationsResponse.class)
-    public JAXBElement<String> createGetStationsResponseGetStationsResult(String value) {
-        return new JAXBElement<>(_GetStationsResponseGetStationsResult_QNAME, String.class, GetStationsResponse.class, value);
     }
 
     /**

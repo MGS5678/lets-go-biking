@@ -25,34 +25,6 @@ public interface IOrchestratorService {
 
     /**
      * 
-     * @param cityName
-     * @return
-     *     returns java.lang.String
-     */
-    @WebMethod(operationName = "GetContractNameFromCity", action = "http://tempuri.org/IOrchestratorService/GetContractNameFromCity")
-    @WebResult(name = "GetContractNameFromCityResult", targetNamespace = "http://tempuri.org/")
-    @RequestWrapper(localName = "GetContractNameFromCity", targetNamespace = "http://tempuri.org/", className = "com.soap.ws.client.generated.GetContractNameFromCity")
-    @ResponseWrapper(localName = "GetContractNameFromCityResponse", targetNamespace = "http://tempuri.org/", className = "com.soap.ws.client.generated.GetContractNameFromCityResponse")
-    public String getContractNameFromCity(
-        @WebParam(name = "cityName", targetNamespace = "http://tempuri.org/")
-        String cityName);
-
-    /**
-     * 
-     * @param contract
-     * @return
-     *     returns java.lang.String
-     */
-    @WebMethod(operationName = "GetStations", action = "http://tempuri.org/IOrchestratorService/GetStations")
-    @WebResult(name = "GetStationsResult", targetNamespace = "http://tempuri.org/")
-    @RequestWrapper(localName = "GetStations", targetNamespace = "http://tempuri.org/", className = "com.soap.ws.client.generated.GetStations")
-    @ResponseWrapper(localName = "GetStationsResponse", targetNamespace = "http://tempuri.org/", className = "com.soap.ws.client.generated.GetStationsResponse")
-    public String getStations(
-        @WebParam(name = "contract", targetNamespace = "http://tempuri.org/")
-        String contract);
-
-    /**
-     * 
      * @param address
      * @return
      *     returns java.lang.String
