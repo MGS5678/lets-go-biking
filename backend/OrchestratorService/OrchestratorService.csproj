@@ -6,7 +6,7 @@
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C0FAD676-ACF9-4A39-B137-D797E45CAC0A}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OrchestratorService</RootNamespace>
     <AssemblyName>OrchestratorService</AssemblyName>
@@ -32,6 +32,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Apache.NMS, Version=2.0.0.0, Culture=neutral, PublicKeyToken=82756feee3957618, processorArchitecture=MSIL">
@@ -104,6 +107,7 @@
     <Compile Include="CorsEnabledBehavior.cs" />
     <Compile Include="CorsEnabledBehaviorExtension.cs" />
     <Compile Include="IOrchestratorService.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="ProxyClient.cs" />
     <Compile Include="OrchestratorService.cs" />
     <Compile Include="Router.cs" />

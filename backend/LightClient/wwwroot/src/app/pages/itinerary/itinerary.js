@@ -1,7 +1,7 @@
 const bikeIcon = L.icon({
-    iconUrl: "../../../assets/images/bike.png",  // path to your bike image
-    iconSize: [32, 32],
-    iconAnchor: [16, 32]
+  iconUrl: "../../../assets/images/bike.png",
+  iconSize: [32, 32],
+  iconAnchor: [16, 32]
 });
 
 const retrievedStartPoint = JSON.parse(sessionStorage.getItem("startPoint"));
@@ -126,7 +126,7 @@ async function updateStatus() {
 
     const response = await fetch(url);
     const json = JSON.parse(await response.json());
-    console.log(json);
+
     for (const mapObject of mapObjects) {
         mapObject.remove();
     }
@@ -134,17 +134,16 @@ async function updateStatus() {
 
     for (let i = 0; i < json.length; i++) {
         const cos = json[i].metadata.query.coordinates;
-        console.log(`Trajet ${i + 1}:`, json[i].metadata.query.profile, cos); //  Debug ajout�
+        console.log(`Trajet ${i + 1}:`, json[i].metadata.query.profile, cos);
 
         // walk
         if (json[i].metadata.query.profile === "foot-walking") {
-            // first & last routes, walking marker
             if (i == 0) {
                 mapObjects.push(L.marker([cos[0][1], cos[0][0]]).addTo(map).bindPopup("Start point"));
                 map.setView([cos[0][1], cos[0][0]], 13);
             }
             if (i == json.length - 1) {
-                mapObjects.push(L.marker([cos[1][1], cos[1][0]]).addTo(map).bindPopup("End point")); //  Correction: "End point" au lieu de "Start point"
+                mapObjects.push(L.marker([cos[1][1], cos[1][0]]).addTo(map).bindPopup("End point"));
             }
 
             mapObjects.push(L.geoJSON(json[i]).addTo(map));

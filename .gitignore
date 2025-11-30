@@ -10,6 +10,7 @@ Thumbs.db
 # Editors / IDEs
 .vscode/
 .idea/
+/node_modules/**/*.*
 
 # Logs
 *.log
