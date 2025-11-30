@@ -13,7 +13,8 @@ namespace Proxy
         private Dictionary<string, T> _cache;
         private DateTimeOffset dt_default;
         private Dictionary<string, DateTimeOffset> _ttl;
-        public GenericCache() {
+        public GenericCache()
+        {
             _cache = new Dictionary<string, T>();
             dt_default = ObjectCache.InfiniteAbsoluteExpiration;
             _ttl = new Dictionary<string, DateTimeOffset>();
@@ -23,7 +24,8 @@ namespace Proxy
         {
             if (_cache.ContainsKey(CacheItemName) && _cache[CacheItemName] != null)
             {
-                if (DateTimeOffset.Now <= _ttl[CacheItemName]) {
+                if (DateTimeOffset.Now <= _ttl[CacheItemName])
+                {
                     return _cache[CacheItemName];
                 }
 

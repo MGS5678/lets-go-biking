@@ -17,18 +17,6 @@ namespace Proxy
     {
         private static readonly HttpClient SharedHttpClient = new HttpClient();
         private static ProxyServer proxy = new ProxyServer(SharedHttpClient);
-        public async Task<string> GetContractNameFromCity(string cityName)
-        {
-            string contractName = (await proxy.GetContractNameFromCity(cityName)).Name;
-            Debug.WriteLine("ProxyService.cs - GetContractNameFromCity - returned contract: " + contractName + " for city: " + cityName);
-            return contractName;
-        }
-        public async Task<string> GetStationsJson(string contractName)
-        {
-            Debug.WriteLine("ProxyService.cs");
-            List<Station> stations = await proxy.GetStationsJson(contractName);
-            return JsonConvert.SerializeObject(stations);
-        }
 
         public async Task<string> GetCoordsJson(string address)
         {
