@@ -20,7 +20,7 @@ namespace Proxy
             _httpClient = httpClient;
         }
 
-        public async Task<string> GetCoordinates(string address) // recup les coords en json
+        public async Task<Coordinate> GetCoordinates(string address) // recup les coords en json
         {
             string url = "https://api.openrouteservice.org/geocode/";
             string cleanAddress = address?.Trim('"') ?? address;
@@ -45,12 +45,11 @@ namespace Proxy
                     // OPENROUTE CES GENIES QUI INVERSENT LATITUDE ET LONGITUDE !!!
                     double latitude = (double)coordsWRONG[1];
                     double longitude = (double)coordsWRONG[0];
-                    JArray coords = new JArray(latitude, longitude);
+                    Coordinate coords = new Coordinate(latitude, longitude);
 
-                    string coordsJsonString = coords.ToString(Newtonsoft.Json.Formatting.None);
-                    Debug.WriteLine("OpenRouteClient.cs - GetCoordinates - returned coordinates for address: " + cleanAddress);
-                    Debug.WriteLine("Coordinates JSON: " + coordsJsonString);
-                    return coordsJsonString;
+                    Debug.WriteLine("OpenRouteClient.cs - GetCoordinates - returned coordinates for address: " + coords);
+                    Debug.WriteLine("Coordinates: " + coords);
+                    return coords;
                 }
                 else
                 {

@@ -42,7 +42,8 @@ async function updateStatus() {
     if (!startAddress || !endAddress) return;
 
     const url = "http://localhost:8733/Design_Time_Addresses/OrchestratorService/OrchestratorService/route?address1=" + encodeURIComponent(startAddress) + "&address2=" + encodeURIComponent(endAddress);
-
+    //const url = "localhost:8733/Design_Time_Addresses/OrchestratorService/OrchestratorService/route?address1=" + encodeURIComponent("") + "&address2=" + encodeURIComponent("");
+    
     const response = await fetch(url);
     const json = JSON.parse(await response.json());
     console.log(json);
@@ -53,7 +54,7 @@ async function updateStatus() {
 
     for (let i = 0; i < json.length; i++) {
         const cos = json[i].metadata.query.coordinates;
-        console.log(`Trajet ${i + 1}:`, json[i].metadata.query.profile, cos); //  Debug ajouté
+        console.log(`Trajet ${i + 1}:`, json[i].metadata.query.profile, cos); //  Debug ajoutï¿½
 
         // walk
         if (json[i].metadata.query.profile === "foot-walking") {
