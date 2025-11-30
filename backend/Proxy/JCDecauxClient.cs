@@ -34,6 +34,8 @@ namespace Proxy
             {
                 string responseMessage = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine("JCDecauxClient.cs - GetAllStations - returned all stations");
+                Debug.WriteLine($"first station : " + JsonConvert.DeserializeObject<List<Station>>(responseMessage)[0]);
+                Debug.WriteLine($"first station position : " + JsonConvert.DeserializeObject<List<Station>>(responseMessage)[0].position);
                 return JsonConvert.DeserializeObject<List<Station>>(responseMessage);
             }
             else

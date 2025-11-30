@@ -53,6 +53,8 @@
     <Compile Include="GenericCache.cs" />
     <Compile Include="IProxyService.cs" />
     <Compile Include="JCDecauxClient.cs" />
+    <Compile Include="valueobjects\Meteo.cs" />
+    <Compile Include="OpenMeteoClient.cs" />
     <Compile Include="OpenRouteClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyServer.cs" />

@@ -112,24 +112,37 @@ namespace ConsoleClient
             //Debug.WriteLine("ConsoleClient.cs - MainAsync - returned route between coords");
             //Console.WriteLine($"Response from routeservice : {routeJson}");
 
-            while (true)
-            {
-                Console.WriteLine("route");
-                Console.WriteLine("entrez une adresse de départ : ");
-                var address1 = Console.ReadLine();
-                Console.WriteLine("entrez une adresse d'arrivée : ");
-                var address2 = Console.ReadLine();
+            //while (true)
+            //{
+            //    Console.WriteLine("route");
+            //    Console.WriteLine("entrez une adresse de départ : ");
+            //    var address1 = Console.ReadLine();
+            //    Console.WriteLine("entrez une adresse d'arrivée : ");
+            //    var address2 = Console.ReadLine();
 
-                Console.WriteLine($"\n\nGetting route between addresses : {address1} and {address2}\n");
-                var routeUrl = $"{defaultBase}/route?address1={Uri.EscapeDataString(address1)}&address2={Uri.EscapeDataString(address2)}";
-                Console.WriteLine($"Route from Addresses Request URL : {routeUrl}\n");
-                var response = await client.GetAsync(routeUrl);
-                response.EnsureSuccessStatusCode();
-                var routeJson = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine("ConsoleClient.cs - MainAsync - returned route between addresses");
-                Console.WriteLine($"Response from routeservice : {routeJson}");
+            //    Console.WriteLine($"\n\nGetting route between addresses : {address1} and {address2}\n");
+            //    var routeUrl = $"{defaultBase}/route?address1={Uri.EscapeDataString(address1)}&address2={Uri.EscapeDataString(address2)}";
+            //    Console.WriteLine($"Route from Addresses Request URL : {routeUrl}\n");
+            //    var response = await client.GetAsync(routeUrl);
+            //    response.EnsureSuccessStatusCode();
+            //    var routeJson = await response.Content.ReadAsStringAsync();
+            //    Debug.WriteLine("ConsoleClient.cs - MainAsync - returned route between addresses");
+            //    Console.WriteLine($"Response from routeservice : {routeJson}");
 
-            }
+            //}
+            Console.WriteLine("lat:");
+            string lat = Console.ReadLine();
+            Console.WriteLine("long:");
+            string lon = Console.ReadLine();
+            string coords = $"[{lat},{lon}]";
+            var requestUrl = $"{defaultBase}/meteo?coords={coords}";
+            Console.WriteLine($"\n\nGetting meteo for : {coords}\n");
+            Console.WriteLine($"meteo requete url : {requestUrl}\n");
+            var response = await client.GetAsync(requestUrl);
+            response.EnsureSuccessStatusCode();
+            var meteoJson = await response.Content.ReadAsStringAsync();
+            Debug.WriteLine("ConsoleClient.cs - MainAsync - returned meteo for coords");
+            Console.WriteLine($"Response from meteoservice : {meteoJson}");
 
         }
     }

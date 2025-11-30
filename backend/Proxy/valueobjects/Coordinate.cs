@@ -9,6 +9,18 @@ public class Coordinate
     [JsonProperty("lng")]
     public double lng { get; set; }
 
+    [JsonProperty("latitude")]
+    private double _latitude
+    {
+        set => lat = value;
+    }
+
+    [JsonProperty("longitude")]
+    private double _longitude
+    {
+        set => lng = value;
+    }
+
     public Coordinate()
     {
         // empty for json

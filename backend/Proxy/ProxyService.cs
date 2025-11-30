@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using Proxy.valueobjects;
 using System.Reflection.Emit;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -36,7 +37,16 @@ namespace Proxy
         {
             List<Station> allStations = await proxy.GetAllStations();
             Debug.WriteLine("ProxyService.cs - GetAllStations - returned allStationsJson");
+            Debug.WriteLine("ProxyService.cs - GetAllStations - allStations count: " + allStations.Count);
+            Debug.WriteLine($"ProxyService.cs - GetAllStations - first station: {JsonConvert.SerializeObject(allStations.FirstOrDefault())}");
             return JsonConvert.SerializeObject(allStations);
+        }
+
+        public async Task<string> GetMeteo(string coords)
+        {
+            Meteo meteo = await proxy.GetMeteoFromCoords(coords);
+            Debug.WriteLine("ProxyService.cs - GetMeteo - returned meteoJson");
+            return JsonConvert.SerializeObject(meteo);
         }
     }
 }

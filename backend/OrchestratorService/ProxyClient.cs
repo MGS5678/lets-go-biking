@@ -50,4 +50,15 @@ public class ProxyClient
         Debug.WriteLine("ProxyClient.cs - GetAllStations - returned all stations");
         return actualJson;
     }
+
+    public async Task<string> GetMeteo(string coords)
+    {
+        var requestUrl = $"{baseUrl}/meteo?coords={Uri.EscapeDataString(coords)}";
+        var response = await _httpClient.GetAsync(requestUrl);
+        response.EnsureSuccessStatusCode();
+        var meteoJson = await response.Content.ReadAsStringAsync();
+        string actualJson = JsonConvert.DeserializeObject<string>(meteoJson);
+        Debug.WriteLine("ProxyClient.cs - GetMeteo - returned meteo for coords: " + coords);
+        return actualJson;
+    }
 }
