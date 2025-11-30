@@ -30,6 +30,12 @@ namespace Proxy
             UriTemplate = "/allstations",
             BodyStyle = WebMessageBodyStyle.Bare)]
         Task<string> GetAllStations();
+
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/meteo?coords={coords}",
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        Task<string> GetMeteo(string coords);
     }
 
 }

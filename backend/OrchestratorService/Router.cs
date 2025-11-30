@@ -126,6 +126,7 @@ namespace OrchestratorService
                 List<string> trajetComplet = new List<string> { trajetD_SD, trajetInterStations, trajetSA_A };
                 possibleRoutes.Add(trajetComplet);
                 trajetLePlusCourt = GetShortestRoute(possibleRoutes);
+                Debug.WriteLine("Router.cs - GetRoute - shortest route determined for same contract case");
                 return "[" + string.Join(",", trajetLePlusCourt) + "]";
             }
             // cas different contract
@@ -159,6 +160,7 @@ namespace OrchestratorService
             }
             string trajetFinal = "[" + string.Join(",", trajetLePlusCourt) + "]";
             Debug.WriteLine("Router.cs - GetRoute - returned final route");
+            Debug.WriteLine("[" + string.Join(",", trajetD_SA2_SA_A) + "]");
             return trajetFinal;
 
         }

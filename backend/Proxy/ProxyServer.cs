@@ -13,10 +13,12 @@ namespace Proxy
         private readonly HttpClient _httpClient;
         private readonly JCDecauxClient _jcdecauxClient;
         private readonly OpenRouteClient _openRouteClient;
+        private readonly OpenMeteoClient _openMeteoClient;
 
         private readonly GenericCache<Coordinate> _coordinatesCache;
         private readonly GenericCache<Route> _routesCache;
         private readonly GenericCache<List<Station>> _allStationsCache;
+        private readonly GenericCache<Meteo> _meteoCache;
         //private static readonly HttpClient SharedHttpClient = new HttpClient();
 
         public ProxyServer(HttpClient httpClient)
@@ -24,10 +26,12 @@ namespace Proxy
             _httpClient = httpClient; //?? SharedHttpClient;
             _jcdecauxClient = new JCDecauxClient(_httpClient);
             _openRouteClient = new OpenRouteClient(_httpClient);
+            _openMeteoClient = new OpenMeteoClient(_httpClient);
 
             _coordinatesCache = new GenericCache<Coordinate>();
             _routesCache = new GenericCache<Route>();
             _allStationsCache = new GenericCache<List<Station>>();
+            _meteoCache = new GenericCache<Meteo>();
         }
 
 
@@ -42,6 +46,7 @@ namespace Proxy
 
             Debug.WriteLine("############# REQUETE OPENROUTE #############");
             Coordinate newCoords = await _openRouteClient.GetCoordinates(address);
+            if (newCoords == null) return null;
             coords.lat = newCoords.lat;
             coords.lng = newCoords.lng;
             return coords;
@@ -60,7 +65,9 @@ namespace Proxy
             }
 
             Debug.WriteLine("############# REQUETE OPENROUTE #############");
-            route.data = await _openRouteClient.GetRoute(coords1, coords2, meansTransport);
+            string temp = await _openRouteClient.GetRoute(coords1, coords2, meansTransport);
+            if (temp == null) return "";
+            route.data = temp;
             return route.data;
         }
 
@@ -75,9 +82,34 @@ namespace Proxy
 
             Debug.WriteLine("############# REQUETE JCDECAUX #############");
             List<Station> newStations = await _jcdecauxClient.GetAllStations();
-            foreach (Station s in newStations) { stations.Add(s); }
+            Debug.WriteLine($"first station : " + JsonConvert.SerializeObject(newStations[0]));
+            foreach (Station s in newStations)
+            {
+                stations.Add(s);
+            }
             Debug.WriteLine("ProxyServer.cs - GetAllStations - returned all stations");
             return stations;
+        }
+
+        public async Task<Meteo> GetMeteoFromCoords(string coords)
+        {
+            string idforcache = $"{coords}";
+            Meteo meteo = _meteoCache.Get(idforcache, 15);
+            if (!meteo.IsEmpty())
+            {
+                Debug.WriteLine("############# CACHE UTILISE #############");
+                return meteo;
+            }
+
+            Debug.WriteLine("############# REQUETE JCDECAUX #############");
+            Meteo newMeteo = await _openMeteoClient.GetMeteoFromCoords(coords);
+
+            meteo.latitude = newMeteo.latitude;
+            meteo.longitude = newMeteo.longitude;
+            meteo.CurrentWeather = newMeteo.CurrentWeather;
+            meteo.CurrentWeatherUnits = newMeteo.CurrentWeatherUnits;
+
+            return meteo;
         }
     }
 }
