@@ -42,6 +42,7 @@ namespace Proxy
 
             Debug.WriteLine("############# REQUETE OPENROUTE #############");
             Coordinate newCoords = await _openRouteClient.GetCoordinates(address);
+            if (newCoords == null) return null;
             coords.lat = newCoords.lat;
             coords.lng = newCoords.lng;
             return coords;
@@ -60,7 +61,9 @@ namespace Proxy
             }
 
             Debug.WriteLine("############# REQUETE OPENROUTE #############");
-            route.data = await _openRouteClient.GetRoute(coords1, coords2, meansTransport);
+            string temp = await _openRouteClient.GetRoute(coords1, coords2, meansTransport);
+            if (temp == null) return "";
+            route.data = temp;
             return route.data;
         }
 
